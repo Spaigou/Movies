@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:background="@drawable/movie_focus_border"
+    android:focusable="true"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    tools:ignore="UseCompoundDrawables">
+
+    <ImageView
+        android:id="@+id/moviePoster"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:background="@color/black"
+        android:contentDescription="movie_image"
+        android:focusable="false"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/movieTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:focusable="false"
+        android:text="movie title"
+        android:layout_weight="1"
+        android:textSize="30sp" />
+
+    <ImageButton
+        android:id="@+id/favorite_icon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="centerCrop"
+        android:focusable="true"
+        android:background="@drawable/baseline_favorite_border_24" />
+
+</LinearLayout>
