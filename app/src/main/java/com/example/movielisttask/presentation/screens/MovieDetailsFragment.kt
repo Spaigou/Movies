@@ -1,4 +1,4 @@
-package com.example.movielisttask.screens
+package com.example.movielisttask.presentation.screens
 
 import android.os.Bundle
 import android.util.Log
@@ -11,16 +11,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import coil.load
-import com.example.movielisttask.MovieViewModel
+import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
 import com.example.movielisttask.R
 import com.example.movielisttask.databinding.MovieDetailsFragmentBinding
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MovieDetailsFragment : Fragment() {
     private var _binding: MovieDetailsFragmentBinding? = null
     private val binding get() = _binding!!
-    private val movieViewModel by activityViewModels<MovieViewModel>()
+    private val moviesViewModel by activityViewModels<MoviesViewModel>()
 //    ИЛИ
 //    private val movieViewModel by viewModels<MovieViewModel>(ownerProducer = { requireActivity() })
 
@@ -40,7 +39,7 @@ class MovieDetailsFragment : Fragment() {
         // подписка на изменения в выбранном фильме
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                movieViewModel.selectedMovie.collect { movie ->
+                moviesViewModel.selectedMovie.collect { movie ->
                     if (movie != null) {
                         binding.moviePoster.load(movie.posterUrl) {
                             placeholder(R.drawable.ic_launcher_foreground)

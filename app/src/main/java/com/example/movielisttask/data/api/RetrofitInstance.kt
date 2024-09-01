@@ -1,4 +1,4 @@
-package com.example.movielisttask.domain.model.api
+package com.example.movielisttask.data.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

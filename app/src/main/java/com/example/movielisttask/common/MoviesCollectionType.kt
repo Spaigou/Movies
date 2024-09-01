@@ -1,4 +1,4 @@
-package com.example.movielisttask.domain.model
+package com.example.movielisttask.common
 
 enum class MoviesCollectionType(name: String) {
     TOP_POPULAR_ALL("TOP_POPULAR_ALL"),

@@ -1,22 +1,24 @@
-package com.example.movielisttask
+package com.example.movielisttask.presentation
 
 import android.os.Bundle
-import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
+import com.example.movielisttask.R
 import com.example.movielisttask.databinding.ActivityMainBinding
-import com.example.movielisttask.screens.FavoritesFragment
-import com.example.movielisttask.screens.MovieDetailsFragment
-import com.example.movielisttask.screens.MoviesFragment
+import com.example.movielisttask.presentation.screens.FavoritesFragment
+import com.example.movielisttask.presentation.screens.MovieDetailsFragment
+import com.example.movielisttask.presentation.screens.MoviesFragment
+import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val movieViewModel by viewModels<MovieViewModel>()
+    private val moviesViewModel by viewModels<MoviesViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +33,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            movieViewModel.selectedMovie.collect { selectedMovie ->
+            moviesViewModel.selectedMovie.collect { selectedMovie ->
                 if (selectedMovie != null) {
+                    binding.bottomNavigation.isGone = true
                     supportFragmentManager.commit {
                         replace<MovieDetailsFragment>(R.id.movies_fragment_container_view)
                         setReorderingAllowed(true)
                         addToBackStack("MovieDetailsFragment")
                     }
+                } else {
+                    binding.bottomNavigation.isGone = false
                 }
             }
         }

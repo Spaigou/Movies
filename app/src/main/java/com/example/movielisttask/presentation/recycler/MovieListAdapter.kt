@@ -1,4 +1,4 @@
-package com.example.movielisttask.recycler
+package com.example.movielisttask.presentation.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.movielisttask.R
 import com.example.movielisttask.databinding.MovieItemBinding
-import com.example.movielisttask.domain.model.Movie
+import com.example.movielisttask.data.model.Movie
 
 class MovieListAdapter :
     ListAdapter<Movie, MovieListAdapter.MovieViewHolder>(MovieDiffUtilItemCallback()) {
@@ -54,9 +54,5 @@ class MovieListAdapter :
     override fun onBindViewHolder(viewHolder: MovieViewHolder, position: Int) {
         val movie = currentList[position]
         viewHolder.bind(movie)
-    }
-
-    companion object {
-        private const val SCALE_VALUE = 25
     }
 }

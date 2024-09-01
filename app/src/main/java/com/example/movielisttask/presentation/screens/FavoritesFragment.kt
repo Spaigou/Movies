@@ -1,4 +1,4 @@
-package com.example.movielisttask.screens
+package com.example.movielisttask.presentation.screens
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -14,17 +14,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.movielisttask.MovieViewModel
-import com.example.movielisttask.R
+import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
 import com.example.movielisttask.databinding.MoviesFragmentBinding
-import com.example.movielisttask.recycler.MovieListAdapter
+import com.example.movielisttask.presentation.recycler.MovieListAdapter
 import kotlinx.coroutines.launch
 
-
-class MoviesFragment : Fragment() {
+class FavoritesFragment : Fragment() {
     private var _binding: MoviesFragmentBinding? = null
     private val binding get() = _binding!!
-    private val movieViewModel by activityViewModels<MovieViewModel>()
+    private val moviesViewModel by activityViewModels<MoviesViewModel>()
 //    ИЛИ
 //    private val movieViewModel by viewModels<MovieViewModel>(ownerProducer = { requireActivity() })
 
@@ -50,8 +48,9 @@ class MoviesFragment : Fragment() {
         // следить за изменениями
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                movieViewModel.movies.collect { movies ->
-                    movieAdapter.submitList(movies)
+                moviesViewModel.movies.collect { movies ->
+                    val favorites = movies.filter { it.isFavorite }
+                    movieAdapter.submitList(favorites)
                 }
             }
         }
@@ -70,6 +69,6 @@ class MoviesFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "MoviesFragment"
+        private const val TAG = "FavoritesFragment"
     }
 }

@@ -1,4 +1,4 @@
-package com.example.movielisttask.domain.model
+package com.example.movielisttask.data.model
 
 
 data class TopMovies(
