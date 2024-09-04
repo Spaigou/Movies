@@ -1,6 +1,7 @@
 package com.example.movielisttask.presentation
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -33,6 +34,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
+            moviesViewModel.movies.collect { movies ->
+                if (movies.isNotEmpty()) {
+                    binding.progressBar.isGone = true
+                }
+            }
+        }
+
+        lifecycleScope.launch {
             moviesViewModel.selectedMovie.collect { selectedMovie ->
                 if (selectedMovie != null) {
                     binding.bottomNavigation.isGone = true
@@ -41,8 +50,6 @@ class MainActivity : AppCompatActivity() {
                         setReorderingAllowed(true)
                         addToBackStack("MovieDetailsFragment")
                     }
-                } else {
-                    binding.bottomNavigation.isGone = false
                 }
             }
         }
@@ -54,6 +61,15 @@ class MainActivity : AppCompatActivity() {
                 switchPage(R.id.favorites_fragment)
             }
             return@setOnItemSelectedListener true
+        }
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+            binding.bottomNavigation.isGone = false
+        } else {
+            super.onBackPressed()
         }
     }
 
