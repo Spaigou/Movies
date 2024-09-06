@@ -1,25 +1,33 @@
 package com.example.movielisttask.presentation.screens
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import coil.load
+import com.example.movielisttask.MoviesApplication
 import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
 import com.example.movielisttask.R
 import com.example.movielisttask.databinding.MovieDetailsFragmentBinding
+import com.example.movielisttask.presentation.viewmodel.MoviesViewModelFactory
 import kotlinx.coroutines.launch
 
 class MovieDetailsFragment : Fragment() {
     private var _binding: MovieDetailsFragmentBinding? = null
     private val binding get() = _binding!!
-    private val moviesViewModel by activityViewModels<MoviesViewModel>()
+    private val moviesViewModel by activityViewModels<MoviesViewModel> {
+        val moviesApplication = requireActivity().application as MoviesApplication
+        MoviesViewModelFactory(moviesApplication.favoritesRepository)
+    }
 //    ИЛИ
 //    private val movieViewModel by viewModels<MovieViewModel>(ownerProducer = { requireActivity() })
 

@@ -1,7 +1,8 @@
 package com.example.movielisttask.presentation
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -9,17 +10,22 @@ import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
+import com.example.movielisttask.MoviesApplication
 import com.example.movielisttask.R
 import com.example.movielisttask.databinding.ActivityMainBinding
 import com.example.movielisttask.presentation.screens.FavoritesFragment
 import com.example.movielisttask.presentation.screens.MovieDetailsFragment
 import com.example.movielisttask.presentation.screens.MoviesFragment
 import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
+import com.example.movielisttask.presentation.viewmodel.MoviesViewModelFactory
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val moviesViewModel by viewModels<MoviesViewModel>()
+    private val moviesViewModel by viewModels<MoviesViewModel> {
+        val moviesApplication = application as MoviesApplication
+        MoviesViewModelFactory(moviesApplication.favoritesRepository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +49,9 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             moviesViewModel.selectedMovie.collect { selectedMovie ->
-                if (selectedMovie != null) {
+                if (selectedMovie != null &&
+                    supportFragmentManager.findFragmentById(R.id.movies_fragment_container_view) !is MovieDetailsFragment
+                ) {
                     binding.bottomNavigation.isGone = true
                     supportFragmentManager.commit {
                         replace<MovieDetailsFragment>(R.id.movies_fragment_container_view)
@@ -64,9 +72,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun onStart() {
+        super.onStart()
+        moviesViewModel.onStartCalled()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        moviesViewModel.onStopCalled()
+    }
+
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
+            moviesViewModel.onBackPressed()
             binding.bottomNavigation.isGone = false
         } else {
             super.onBackPressed()

@@ -14,15 +14,20 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
+import com.example.movielisttask.MoviesApplication
 import com.example.movielisttask.databinding.MoviesFragmentBinding
 import com.example.movielisttask.presentation.recycler.MovieListAdapter
+import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
+import com.example.movielisttask.presentation.viewmodel.MoviesViewModelFactory
 import kotlinx.coroutines.launch
 
 class FavoritesFragment : Fragment() {
     private var _binding: MoviesFragmentBinding? = null
     private val binding get() = _binding!!
-    private val moviesViewModel by activityViewModels<MoviesViewModel>()
+    private val moviesViewModel by activityViewModels<MoviesViewModel> {
+        val moviesApplication = requireActivity().application as MoviesApplication
+        MoviesViewModelFactory(moviesApplication.favoritesRepository)
+    }
 //    ИЛИ
 //    private val movieViewModel by viewModels<MovieViewModel>(ownerProducer = { requireActivity() })
 
@@ -38,7 +43,10 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val movieAdapter = MovieListAdapter()
+        val movieAdapter = MovieListAdapter(
+            onMovieClick = { moviesViewModel.onMovieClicked(it.kinopoiskId) },
+            onFavoriteClick = { moviesViewModel.onFavoriteClicked(it) },
+        )
 
         binding.recyclerView.apply {
             layoutManager = determineLayoutManager()

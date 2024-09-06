@@ -9,9 +9,12 @@ import com.example.movielisttask.R
 import com.example.movielisttask.databinding.MovieItemBinding
 import com.example.movielisttask.data.model.Movie
 
-class MovieListAdapter :
+class MovieListAdapter(
+    private val onMovieClick: (Movie) -> Unit,
+    private val onFavoriteClick: (Movie) -> Unit = {},
+) :
     ListAdapter<Movie, MovieListAdapter.MovieViewHolder>(MovieDiffUtilItemCallback()) {
-    class MovieViewHolder(private val binding: MovieItemBinding) :
+    inner class MovieViewHolder(private val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: Movie) {
             with(binding) {
@@ -30,11 +33,11 @@ class MovieListAdapter :
                 }
 
                 root.setOnClickListener {
-                    movie.onClick()
+                    onMovieClick(movie)
                 }
 
                 favoriteIcon.setOnClickListener {
-                    movie.onFavoriteClick()
+                    onFavoriteClick(movie)
                     favoriteIcon.setImageResource(defineFavoriteIcon(movie.isFavorite))
                 }
             }

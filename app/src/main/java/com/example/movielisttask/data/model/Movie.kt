@@ -17,7 +17,6 @@ data class Movie(
     val countries: List<Country>,
     val genres: List<Genre>,
     var isFavorite: Boolean = false,
-    var onClick: () -> Unit = {},
 ) {
     fun onFavoriteClick() {
         isFavorite = !isFavorite
