@@ -14,6 +14,8 @@ class RoomLocalMoviesRepository(private val moviesDao: MoviesDao) : LocalMoviesR
     }
 
     override suspend fun getMovies(): List<Movie> {
-        return moviesDao.getMovies().map { it.toMovie() }
+        return moviesDao.getMovies().map { movieEntity ->
+            movieEntity.toMovie()
+        }
     }
 }

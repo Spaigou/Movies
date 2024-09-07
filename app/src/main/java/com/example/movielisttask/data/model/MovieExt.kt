@@ -20,9 +20,10 @@ fun Movie.toMovieEntity() = MovieEntity(
     filmLength = filmLength,
     description = description,
     shortDescription = shortDescription,
-    countries = countries.joinToString(",") { it.country },
-    genres = genres.joinToString(",") { it.genre },
-    isFavorite = isFavorite
+    countries = countries,
+    genres = genres,
+    isFavorite = isFavorite,
+    timestampMs = System.currentTimeMillis()
 )
 
 fun MovieEntity.toMovie() = Movie(
@@ -39,7 +40,7 @@ fun MovieEntity.toMovie() = Movie(
     filmLength = filmLength,
     description = description,
     shortDescription = shortDescription,
-    countries = countries.split(",").map { Country(it) },
-    genres = genres.split(",").map { Genre(it) },
+    countries = countries,
+    genres = genres,
     isFavorite = isFavorite
 )

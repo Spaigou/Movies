@@ -58,10 +58,6 @@ class MoviesViewModel(
         }
     }
 
-    fun onFavoriteClicked(movie: Movie) {
-        movie.onFavoriteClick()
-    }
-
     fun onBackPressed() {
         _selectedMovie.value = null
     }
