@@ -44,10 +44,7 @@ class MoviesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val movieAdapter = MovieListAdapter(
-            onMovieClick = { moviesViewModel.onMovieClicked(it.kinopoiskId) },
-            onFavoriteClick = { moviesViewModel.onFavoriteClicked(it) },
-        )
+        val movieAdapter = MovieListAdapter { moviesViewModel.onMovieClicked(it.kinopoiskId) }
 
         binding.recyclerView.apply {
             layoutManager = determineLayoutManager()

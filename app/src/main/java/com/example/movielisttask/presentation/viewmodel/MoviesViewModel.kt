@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movielisttask.data.model.Movie
+import com.example.movielisttask.data.model.onFavoriteClick
 import com.example.movielisttask.domain.repository.LocalMoviesRepository
 import com.example.movielisttask.domain.usecase.GetLocalMoviesUseCase
 import com.example.movielisttask.domain.usecase.GetMoviesCollectionUseCase
