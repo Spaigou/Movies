@@ -1,4 +1,4 @@
-package com.example.movielisttask.data.api
+package com.example.movielisttask.data.remote
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

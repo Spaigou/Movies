@@ -7,7 +7,7 @@ import com.example.movielisttask.data.model.Movie
 class GetMoviesCollectionUseCase {
     private val repository = MovieRepositoryImpl()
 
-    suspend operator fun invoke(type: String = MoviesCollectionType.TOP_POPULAR_ALL.name, page: Int = 1): List<Movie>? {
+    suspend operator fun invoke(type: String = MoviesCollectionType.TOP_POPULAR_MOVIES.name, page: Int = 1): List<Movie>? {
         val movies = repository.getMoviesCollection(type, page)
         return movies
     }

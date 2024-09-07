@@ -1,7 +1,5 @@
 package com.example.movielisttask.presentation
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val moviesViewModel by viewModels<MoviesViewModel> {
         val moviesApplication = application as MoviesApplication
-        MoviesViewModelFactory(moviesApplication.favoritesRepository)
+        MoviesViewModelFactory(moviesApplication.localMoviesRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,12 +68,6 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnItemSelectedListener true
         }
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-        moviesViewModel.onStartCalled()
     }
 
     override fun onStop() {

@@ -1,13 +1,10 @@
 package com.example.movielisttask.presentation.screens
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -26,7 +23,7 @@ class MovieDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val moviesViewModel by activityViewModels<MoviesViewModel> {
         val moviesApplication = requireActivity().application as MoviesApplication
-        MoviesViewModelFactory(moviesApplication.favoritesRepository)
+        MoviesViewModelFactory(moviesApplication.localMoviesRepository)
     }
 //    ИЛИ
 //    private val movieViewModel by viewModels<MovieViewModel>(ownerProducer = { requireActivity() })

@@ -1,7 +1,7 @@
 package com.example.movielisttask.data.repository
 
 import android.util.Log
-import com.example.movielisttask.data.api.RetrofitInstance
+import com.example.movielisttask.data.remote.RetrofitInstance
 import com.example.movielisttask.data.model.Movie
 import com.example.movielisttask.domain.repository.MovieRepository
 import retrofit2.HttpException
