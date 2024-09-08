@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            moviesViewModel.movies.collect { movies ->
+            moviesViewModel.displayMovies.collect { movies ->
                 if (movies.isNotEmpty()) {
                     binding.progressBar.isGone = true
                 }

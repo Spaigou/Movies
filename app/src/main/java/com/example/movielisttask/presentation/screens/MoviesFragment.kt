@@ -62,36 +62,8 @@ class MoviesFragment : Fragment() {
         // следить за изменениями
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                moviesViewModel.movies.collect { movies ->
+                moviesViewModel.displayMovies.collect { movies ->
                     movieAdapter.submitList(movies)
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                moviesViewModel.favorites.collect { favorites ->
-                    if (favorites != null) {
-                        movieAdapter.submitList(favorites)
-                    } else {
-                        movieAdapter.submitList(moviesViewModel.movies.value)
-                        delay(50L)
-                        binding.recyclerView.scrollToPosition(0)
-                    }
-                }
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                moviesViewModel.genreMovies.collect { movies ->
-                    if (movies != null) {
-                        movieAdapter.submitList(movies)
-                    } else {
-                        movieAdapter.submitList(moviesViewModel.movies.value)
-                        delay(50L)
-                        binding.recyclerView.scrollToPosition(0)
-                    }
                 }
             }
         }

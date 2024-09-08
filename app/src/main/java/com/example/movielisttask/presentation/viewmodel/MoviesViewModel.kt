@@ -22,17 +22,11 @@ class MoviesViewModel(
     localMoviesRepository: LocalMoviesRepository,
     moviesRepository: MoviesRepository,
 ) : ViewModel() {
+    private var movies = emptyList<Movie>()
+    private var genreMovies = emptyList<Movie>()
+
     private val _displayMovies = MutableStateFlow(emptyList<Movie>())
     val displayMovies: StateFlow<List<Movie>> = _displayMovies
-
-    private val _movies = MutableStateFlow(emptyList<Movie>())
-    val movies: StateFlow<List<Movie>> = _movies
-
-    private val _favorites = MutableStateFlow<List<Movie>?>(null)
-    val favorites: StateFlow<List<Movie>?> = _favorites
-
-    private val _genreMovies = MutableStateFlow<List<Movie>?>(null)
-    val genreMovies: StateFlow<List<Movie>?> = _genreMovies
 
     private val _selectedMovie = MutableStateFlow<Movie?>(null)
     val selectedMovie: StateFlow<Movie?> = _selectedMovie
@@ -52,7 +46,8 @@ class MoviesViewModel(
             val localMovies = getLocalMovies()
             fetchFilters()
             if (localMovies.isNotEmpty()) {
-                _movies.value = localMovies
+                movies = localMovies
+                _displayMovies.value = localMovies
             } else {
                 fetchMovies()
             }
@@ -64,7 +59,8 @@ class MoviesViewModel(
             Log.d(TAG, "Fetching movies...")
             val fetchedMovies = getMoviesCollection()
             if (fetchedMovies != null) {
-                _movies.value = fetchedMovies
+                movies = fetchedMovies
+                _displayMovies.value = fetchedMovies
             } else {
                 Log.d(TAG, "Error fetching movies")
                 delay(5000L)
@@ -87,7 +83,7 @@ class MoviesViewModel(
 
     fun onMovieClicked(id: Int) {
         viewModelScope.launch {
-            _selectedMovie.value = _movies.value.first { it.kinopoiskId == id }
+            _selectedMovie.value = displayMovies.value.first { it.kinopoiskId == id }
         }
     }
 
@@ -97,26 +93,28 @@ class MoviesViewModel(
 
     fun onStopCalled() {
         viewModelScope.launch {
-            saveLocalMovies(_movies.value)
+            saveLocalMovies(movies)
         }
     }
 
     fun onMenuItemClicked(itemId: Int) {
         if (itemId == R.id.movies) {
-            _favorites.value = null
+            _displayMovies.value = genreMovies.ifEmpty { movies }
         }
         if (itemId == R.id.favorites) {
-            _favorites.value = _movies.value.filter { it.isFavorite }
+            val toDisplay = genreMovies.ifEmpty { movies }
+            _displayMovies.value = toDisplay.filter { it.isFavorite }
         }
     }
 
     fun onNoneGenreSelected() {
-        _genreMovies.value = null
+        _displayMovies.value = movies
     }
 
     fun onGenreSelected(position: Int) {
         viewModelScope.launch {
-            _genreMovies.value = getMoviesByGenreUseCase(genres.value[position])
+            genreMovies = getMoviesByGenreUseCase(genres.value[position])
+            _displayMovies.value = genreMovies
         }
     }
 
