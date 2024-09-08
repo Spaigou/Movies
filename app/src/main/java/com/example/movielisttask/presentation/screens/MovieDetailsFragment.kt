@@ -23,7 +23,10 @@ class MovieDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private val moviesViewModel by activityViewModels<MoviesViewModel> {
         val moviesApplication = requireActivity().application as MoviesApplication
-        MoviesViewModelFactory(moviesApplication.localMoviesRepository)
+        MoviesViewModelFactory(
+            moviesApplication.localMoviesRepository,
+            moviesApplication.moviesRepository,
+        )
     }
 //    ИЛИ
 //    private val movieViewModel by viewModels<MovieViewModel>(ownerProducer = { requireActivity() })

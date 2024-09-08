@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.movielisttask.MoviesApplication
 import com.example.movielisttask.R
 import com.example.movielisttask.databinding.ActivityMainBinding
-import com.example.movielisttask.presentation.screens.FavoritesFragment
 import com.example.movielisttask.presentation.screens.MovieDetailsFragment
 import com.example.movielisttask.presentation.screens.MoviesFragment
 import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
@@ -22,7 +21,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val moviesViewModel by viewModels<MoviesViewModel> {
         val moviesApplication = application as MoviesApplication
-        MoviesViewModelFactory(moviesApplication.localMoviesRepository)
+        MoviesViewModelFactory(
+            moviesApplication.localMoviesRepository,
+            moviesApplication.moviesRepository,
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,11 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.bottomNavigation.setOnItemSelectedListener { navItem ->
-            if (navItem.itemId == R.id.movies) {
-                switchPage(R.id.movies_fragment)
-            } else if (navItem.itemId == R.id.favorites) {
-                switchPage(R.id.favorites_fragment)
-            }
+            moviesViewModel.onMenuItemClicked(navItem.itemId)
             return@setOnItemSelectedListener true
         }
     }
@@ -82,18 +80,6 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigation.isGone = false
         } else {
             super.onBackPressed()
-        }
-    }
-
-    private fun switchPage(pageId: Int) {
-        supportFragmentManager.commit {
-            if (pageId == R.id.favorites_fragment)
-                replace<FavoritesFragment>(R.id.movies_fragment_container_view)
-            else if (pageId == R.id.movies_fragment)
-                replace<MoviesFragment>(R.id.movies_fragment_container_view)
-            setReorderingAllowed(true)
-            if (pageId != R.id.movies_fragment)
-                addToBackStack(null)
         }
     }
 }

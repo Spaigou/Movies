@@ -9,8 +9,15 @@
     android:orientation="vertical"
     tools:context=".presentation.MainActivity">
 
+    <Spinner
+        android:id="@+id/genre_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_gravity="start"/>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

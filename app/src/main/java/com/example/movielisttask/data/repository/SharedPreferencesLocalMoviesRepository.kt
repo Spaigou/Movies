@@ -1,6 +1,7 @@
 package com.example.movielisttask.data.repository
 
 import android.content.SharedPreferences
+import com.example.movielisttask.data.model.Genre
 import com.example.movielisttask.data.model.Movie
 import com.example.movielisttask.domain.repository.LocalMoviesRepository
 import com.google.gson.Gson
@@ -21,6 +22,15 @@ class SharedPreferencesLocalMoviesRepository(private val sharedPreferences: Shar
         val moviesString = sharedPreferences.getString(KEY, null) ?: return emptyList()
         val type = object : TypeToken<List<Movie>>() {}.type
         return gson.fromJson(moviesString, type)
+    }
+
+    override suspend fun getMovies(genre: Genre): List<Movie> {
+        val moviesString = sharedPreferences.getString(KEY, null) ?: return emptyList()
+        val type = object : TypeToken<List<Movie>>() {}.type
+        val moviesWithGenre = gson.fromJson<List<Movie>>(moviesString, type).filter { movie ->
+            movie.genres.any { it == genre }
+        }
+        return moviesWithGenre
     }
 
     companion object {

@@ -4,8 +4,11 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -15,10 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.movielisttask.MoviesApplication
+import com.example.movielisttask.R
 import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
 import com.example.movielisttask.databinding.MoviesFragmentBinding
 import com.example.movielisttask.presentation.recycler.MovieListAdapter
 import com.example.movielisttask.presentation.viewmodel.MoviesViewModelFactory
+import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 
 
@@ -27,10 +34,11 @@ class MoviesFragment : Fragment() {
     private val binding get() = _binding!!
     private val moviesViewModel by activityViewModels<MoviesViewModel> {
         val moviesApplication = requireActivity().application as MoviesApplication
-        MoviesViewModelFactory(moviesApplication.localMoviesRepository)
+        MoviesViewModelFactory(
+            moviesApplication.localMoviesRepository,
+            moviesApplication.moviesRepository,
+        )
     }
-//    ИЛИ
-//    private val movieViewModel by viewModels<MovieViewModel>(ownerProducer = { requireActivity() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +65,61 @@ class MoviesFragment : Fragment() {
                 moviesViewModel.movies.collect { movies ->
                     movieAdapter.submitList(movies)
                 }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                moviesViewModel.favorites.collect { favorites ->
+                    if (favorites != null) {
+                        movieAdapter.submitList(favorites)
+                    } else {
+                        movieAdapter.submitList(moviesViewModel.movies.value)
+                        delay(50L)
+                        binding.recyclerView.scrollToPosition(0)
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                moviesViewModel.genreMovies.collect { movies ->
+                    if (movies != null) {
+                        movieAdapter.submitList(movies)
+                    } else {
+                        movieAdapter.submitList(moviesViewModel.movies.value)
+                        delay(50L)
+                        binding.recyclerView.scrollToPosition(0)
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                moviesViewModel.genres.collect { genres ->
+                    val arrayAdapter = ArrayAdapter(
+                        requireContext(),
+                        R.layout.genre_item,
+                        genres.map {
+                            it.genre.replaceFirstChar { letter ->
+                                letter.uppercaseChar()
+                            }
+                        }
+                    )
+                    binding.genreSpinner.adapter = arrayAdapter
+                }
+            }
+        }
+
+        binding.genreSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                moviesViewModel.onGenreSelected(position)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                moviesViewModel.onNoneGenreSelected()
             }
         }
     }

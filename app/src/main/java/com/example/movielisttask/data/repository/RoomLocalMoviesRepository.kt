@@ -1,5 +1,6 @@
 package com.example.movielisttask.data.repository
 
+import com.example.movielisttask.data.model.Genre
 import com.example.movielisttask.data.model.Movie
 import com.example.movielisttask.data.model.room.MoviesDao
 import com.example.movielisttask.data.model.toMovie
@@ -17,5 +18,12 @@ class RoomLocalMoviesRepository(private val moviesDao: MoviesDao) : LocalMoviesR
         return moviesDao.getMovies().map { movieEntity ->
             movieEntity.toMovie()
         }
+    }
+
+    override suspend fun getMovies(genre: Genre): List<Movie> {
+//        return moviesDao.getMovies(genre).map { movieEntity ->
+//            movieEntity.toMovie()
+//        }
+        return emptyList()
     }
 }
