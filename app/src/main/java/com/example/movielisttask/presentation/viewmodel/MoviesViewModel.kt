@@ -22,6 +22,9 @@ class MoviesViewModel(
     localMoviesRepository: LocalMoviesRepository,
     moviesRepository: MoviesRepository,
 ) : ViewModel() {
+    private val _displayMovies = MutableStateFlow(emptyList<Movie>())
+    val displayMovies: StateFlow<List<Movie>> = _displayMovies
+
     private val _movies = MutableStateFlow(emptyList<Movie>())
     val movies: StateFlow<List<Movie>> = _movies
 

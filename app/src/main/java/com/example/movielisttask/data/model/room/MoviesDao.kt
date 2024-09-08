@@ -11,8 +11,8 @@ interface MoviesDao {
     @Query("SELECT * FROM movies ORDER BY timestamp_ms")
     suspend fun getMovies(): List<MovieEntity>
 
-//    @Query("SELECT * FROM movies ORDER BY timestamp_ms")
-//    suspend fun getMovies(genre: Genre): List<MovieEntity>
+    @Query("SELECT * FROM movies WHERE genres LIKE ('%' || :genre || '%') ORDER BY timestamp_ms")
+    suspend fun getMovies(genre: String): List<MovieEntity>
 
     @Query("DELETE FROM movies")
     suspend fun clearMovies()

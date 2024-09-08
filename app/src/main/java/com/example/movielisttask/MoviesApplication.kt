@@ -19,17 +19,17 @@ class MoviesApplication : Application() {
         db.moviesDao()
     }
 
-    val localMoviesRepository: LocalMoviesRepository by lazy {
-        SharedPreferencesLocalMoviesRepository(sharedPreferences)
-    }
-
     val moviesRepository: MoviesRepository by lazy {
         MoviesRepositoryImpl()
     }
 
 //    val localMoviesRepository: LocalMoviesRepository by lazy {
-//        RoomLocalMoviesRepository(moviesDao)
+//        SharedPreferencesLocalMoviesRepository(sharedPreferences)
 //    }
+
+    val localMoviesRepository: LocalMoviesRepository by lazy {
+        RoomLocalMoviesRepository(moviesDao)
+    }
 
     override fun onCreate() {
         super.onCreate()
