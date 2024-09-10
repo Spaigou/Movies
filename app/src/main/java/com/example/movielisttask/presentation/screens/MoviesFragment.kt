@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -23,9 +22,6 @@ import com.example.movielisttask.presentation.viewmodel.MoviesViewModel
 import com.example.movielisttask.databinding.MoviesFragmentBinding
 import com.example.movielisttask.presentation.recycler.MovieListAdapter
 import com.example.movielisttask.presentation.viewmodel.MoviesViewModelFactory
-import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 
 
@@ -36,7 +32,7 @@ class MoviesFragment : Fragment() {
         val moviesApplication = requireActivity().application as MoviesApplication
         MoviesViewModelFactory(
             moviesApplication.localMoviesRepository,
-            moviesApplication.moviesRepository,
+            moviesApplication.remoteMoviesRepository,
         )
     }
 

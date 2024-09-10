@@ -25,7 +25,7 @@ class MovieDetailsFragment : Fragment() {
         val moviesApplication = requireActivity().application as MoviesApplication
         MoviesViewModelFactory(
             moviesApplication.localMoviesRepository,
-            moviesApplication.moviesRepository,
+            moviesApplication.remoteMoviesRepository,
         )
     }
 //    ИЛИ

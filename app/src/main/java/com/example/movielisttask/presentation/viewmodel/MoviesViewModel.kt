@@ -7,7 +7,7 @@ import com.example.movielisttask.R
 import com.example.movielisttask.data.model.Genre
 import com.example.movielisttask.data.model.Movie
 import com.example.movielisttask.domain.repository.LocalMoviesRepository
-import com.example.movielisttask.domain.repository.MoviesRepository
+import com.example.movielisttask.domain.repository.RemoteMoviesRepository
 import com.example.movielisttask.domain.usecase.GetFiltersUseCase
 import com.example.movielisttask.domain.usecase.GetLocalMoviesUseCase
 import com.example.movielisttask.domain.usecase.GetMoviesByGenreUseCase
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class MoviesViewModel(
     localMoviesRepository: LocalMoviesRepository,
-    moviesRepository: MoviesRepository,
+    remoteMoviesRepository: RemoteMoviesRepository,
 ) : ViewModel() {
     private var movies = emptyList<Movie>()
     private var genreMovies = emptyList<Movie>()
@@ -34,8 +34,8 @@ class MoviesViewModel(
     private val _genres = MutableStateFlow(emptyList<Genre>())
     val genres: StateFlow<List<Genre>> = _genres
 
-    private val getMoviesCollection = GetMoviesCollectionUseCase(moviesRepository)
-    private val getFilters = GetFiltersUseCase(moviesRepository)
+    private val getMoviesCollection = GetMoviesCollectionUseCase(remoteMoviesRepository)
+    private val getFilters = GetFiltersUseCase(remoteMoviesRepository)
     private val getLocalMovies = GetLocalMoviesUseCase(localMoviesRepository)
     private val saveLocalMovies = SaveLocalMoviesUseCase(localMoviesRepository)
     private val getMoviesByGenreUseCase = GetMoviesByGenreUseCase(localMoviesRepository)

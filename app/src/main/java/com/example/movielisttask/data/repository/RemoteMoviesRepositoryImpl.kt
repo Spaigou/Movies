@@ -4,11 +4,11 @@ import android.util.Log
 import com.example.movielisttask.data.model.Filters
 import com.example.movielisttask.data.remote.RetrofitInstance
 import com.example.movielisttask.data.model.Movie
-import com.example.movielisttask.domain.repository.MoviesRepository
+import com.example.movielisttask.domain.repository.RemoteMoviesRepository
 import retrofit2.HttpException
 import java.io.IOException
 
-class MoviesRepositoryImpl : MoviesRepository {
+class RemoteMoviesRepositoryImpl : RemoteMoviesRepository {
 
     override suspend fun getMoviesCollection(type: String, page: Int): List<Movie>? {
         val response = try {
