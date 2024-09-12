@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "MovieListTask"
 include(":app")
+include(":feature_movies_api")
+include(":feature_movies_database_impl")
+include(":feature_movies_prefs_impl")

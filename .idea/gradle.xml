@@ -10,6 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/feature_movies_api" />
+            <option value="$PROJECT_DIR$/feature_movies_database_impl" />
+            <option value="$PROJECT_DIR$/feature_movies_prefs_impl" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

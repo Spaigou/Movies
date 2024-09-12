@@ -12,6 +12,7 @@ import com.example.movielisttask.data.model.onFavoriteClick
 
 class MovieListAdapter(
     private val onMovieClick: (Movie) -> Unit,
+    private val onFavoriteClick: (Movie) -> Unit,
 ) :
     ListAdapter<Movie, MovieListAdapter.MovieViewHolder>(MovieDiffUtilItemCallback()) {
     inner class MovieViewHolder(private val binding: MovieItemBinding) :
@@ -37,7 +38,7 @@ class MovieListAdapter(
                 }
 
                 favoriteIcon.setOnClickListener {
-                    movie.onFavoriteClick()
+                    onFavoriteClick(movie)
                     favoriteIcon.setImageResource(defineFavoriteIcon(movie.isFavorite))
                 }
             }

@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.movielisttask.R
 import com.example.movielisttask.data.model.Genre
 import com.example.movielisttask.data.model.Movie
+import com.example.movielisttask.data.model.onFavoriteClick
 import com.example.movielisttask.domain.repository.LocalMoviesRepository
 import com.example.movielisttask.domain.repository.RemoteMoviesRepository
-import com.example.movielisttask.domain.usecase.GetFiltersUseCase
 import com.example.movielisttask.domain.usecase.GetLocalMoviesUseCase
 import com.example.movielisttask.domain.usecase.GetMoviesByGenreUseCase
 import com.example.movielisttask.domain.usecase.GetMoviesCollectionUseCase
@@ -35,7 +35,6 @@ class MoviesViewModel(
     val genres: StateFlow<List<Genre>> = _genres
 
     private val getMoviesCollection = GetMoviesCollectionUseCase(remoteMoviesRepository)
-    private val getFilters = GetFiltersUseCase(remoteMoviesRepository)
     private val getLocalMovies = GetLocalMoviesUseCase(localMoviesRepository)
     private val saveLocalMovies = SaveLocalMoviesUseCase(localMoviesRepository)
     private val getMoviesByGenreUseCase = GetMoviesByGenreUseCase(localMoviesRepository)
@@ -44,13 +43,13 @@ class MoviesViewModel(
         viewModelScope.launch {
             delay(700L)  // для scroll bar'а
             val localMovies = getLocalMovies()
-            fetchFilters()
             if (localMovies.isNotEmpty()) {
                 movies = localMovies
                 _displayMovies.value = localMovies
             } else {
                 fetchMovies()
             }
+            getGenres()
         }
     }
 
@@ -61,6 +60,7 @@ class MoviesViewModel(
             if (fetchedMovies != null) {
                 movies = fetchedMovies
                 _displayMovies.value = fetchedMovies
+                saveLocalMovies(movies)
             } else {
                 Log.d(TAG, "Error fetching movies")
                 delay(5000L)
@@ -68,22 +68,23 @@ class MoviesViewModel(
         } while (fetchedMovies == null)
     }
 
-    private suspend fun fetchFilters() {
-        do {
-            Log.d(TAG, "Fetching filters...")
-            val fetchedFilters = getFilters()
-            if (fetchedFilters != null) {
-                _genres.value = fetchedFilters.genres
-            } else {
-                Log.d(TAG, "Error fetching movies")
-                delay(5000L)
-            }
-        } while (fetchedFilters == null)
+    private fun getGenres() {
+        val localGenres = mutableListOf<Genre>()
+        movies .forEach { movie ->
+            movie.genres.forEach { localGenres.add(it) }
+        }
+        localGenres.distinct()
+        _genres.value = localGenres
     }
 
-    fun onMovieClicked(id: Int) {
+    fun onMovieClicked(movie: Movie) {
+        _selectedMovie.value = movie
+    }
+
+    fun onFavoriteClicked(movie: Movie) {
         viewModelScope.launch {
-            _selectedMovie.value = displayMovies.value.first { it.kinopoiskId == id }
+            movie.onFavoriteClick()
+            saveLocalMovies(movies)
         }
     }
 
@@ -117,6 +118,7 @@ class MoviesViewModel(
             _displayMovies.value = genreMovies
         }
     }
+
 
     companion object {
         private const val TAG = "MoviesViewModel"

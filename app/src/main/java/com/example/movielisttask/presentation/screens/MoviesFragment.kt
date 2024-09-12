@@ -48,7 +48,10 @@ class MoviesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val movieAdapter = MovieListAdapter { moviesViewModel.onMovieClicked(it.kinopoiskId) }
+        val movieAdapter = MovieListAdapter(
+            onMovieClick = { moviesViewModel.onMovieClicked(it) },
+            onFavoriteClick = { moviesViewModel.onFavoriteClicked(it) }
+        )
 
         binding.recyclerView.apply {
             layoutManager = determineLayoutManager()
@@ -70,8 +73,8 @@ class MoviesFragment : Fragment() {
                     val arrayAdapter = ArrayAdapter(
                         requireContext(),
                         R.layout.genre_item,
-                        genres.map {
-                            it.genre.replaceFirstChar { letter ->
+                        genres.map { genre ->
+                            genre.genre.replaceFirstChar { letter ->
                                 letter.uppercaseChar()
                             }
                         }

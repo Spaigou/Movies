@@ -14,9 +14,6 @@ interface MoviesDao {
     @Query("SELECT * FROM movies WHERE genres LIKE ('%' || :genre || '%') ORDER BY timestamp_ms")
     suspend fun getMovies(genre: String): List<MovieEntity>
 
-    @Query("DELETE FROM movies")
-    suspend fun clearMovies()
-
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(entity: MovieEntity)
 }
