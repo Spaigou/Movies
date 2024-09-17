@@ -1,6 +1,6 @@
 package com.example.movielisttask.common
 
-enum class MoviesCollectionType() {
+enum class MoviesCollectionType {
     TOP_POPULAR_ALL,
     TOP_POPULAR_MOVIES,
     TOP_250_TV_SHOWS,

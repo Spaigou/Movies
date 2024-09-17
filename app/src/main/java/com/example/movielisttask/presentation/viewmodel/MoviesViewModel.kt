@@ -3,25 +3,20 @@ package com.example.movielisttask.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.feature_movies_api.domain.LocalMoviesRepository
+import com.example.feature_movies_api.domain.model.Genre
+import com.example.feature_movies_api.domain.model.Movie
+import com.example.feature_movies_api.domain.model.onFavoriteClick
 import com.example.movielisttask.R
-import com.example.movielisttask.domain.model.Movie
-import com.example.movielisttask.data.model.onFavoriteClick
-import com.example.movielisttask.domain.model.Genre
-import com.example.movielisttask.domain.repository.LocalMoviesRepository
 import com.example.movielisttask.domain.repository.RemoteMoviesRepository
-import com.example.movielisttask.domain.usecase.GetLocalMoviesUseCase
-import com.example.movielisttask.domain.usecase.GetMoviesByGenreUseCase
-import com.example.movielisttask.domain.usecase.GetMoviesCollectionUseCase
-import com.example.movielisttask.domain.usecase.SaveLocalMoviesUseCase
-import com.example.movielisttask.domain.usecase.UpdateLocalFavoriteUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MoviesViewModel(
-    localMoviesRepository: LocalMoviesRepository,
-    remoteMoviesRepository: RemoteMoviesRepository,
+    private val localMoviesRepository: LocalMoviesRepository,
+    private val remoteMoviesRepository: RemoteMoviesRepository,
 ) : ViewModel() {
     private var movies = emptyList<Movie>()
     private var genreMovies = emptyList<Movie>()
@@ -35,16 +30,10 @@ class MoviesViewModel(
     private val _genres = MutableStateFlow(emptyList<Genre>())
     val genres: StateFlow<List<Genre>> = _genres
 
-    private val getMoviesCollection = GetMoviesCollectionUseCase(remoteMoviesRepository)
-    private val getLocalMovies = GetLocalMoviesUseCase(localMoviesRepository)
-    private val saveLocalMovies = SaveLocalMoviesUseCase(localMoviesRepository)
-    private val updateLocalFavorite = UpdateLocalFavoriteUseCase(localMoviesRepository)
-    private val getMoviesByGenreUseCase = GetMoviesByGenreUseCase(localMoviesRepository)
-
     init {
         viewModelScope.launch {
             delay(700L)  // для scroll bar'а
-            val localMovies = getLocalMovies()
+            val localMovies = localMoviesRepository.getMovies()
             if (localMovies.isNotEmpty()) {
                 movies = localMovies
                 _displayMovies.value = localMovies
@@ -58,11 +47,11 @@ class MoviesViewModel(
     private suspend fun fetchMovies() {
         do {
             Log.d(TAG, "Fetching movies...")
-            val fetchedMovies = getMoviesCollection()
+            val fetchedMovies = remoteMoviesRepository.getMoviesCollection()
             if (fetchedMovies != null) {
                 movies = fetchedMovies
                 _displayMovies.value = fetchedMovies
-                saveLocalMovies(movies)
+                localMoviesRepository.saveMovies(movies)
             } else {
                 Log.d(TAG, "Error fetching movies")
                 delay(5000L)
@@ -87,7 +76,7 @@ class MoviesViewModel(
     fun onFavoriteClicked(movie: Movie) {
         viewModelScope.launch {
             movie.onFavoriteClick()
-            updateLocalFavorite(movie)
+            localMoviesRepository.updateFavorite(movie)
         }
     }
 
@@ -112,7 +101,7 @@ class MoviesViewModel(
     fun onGenreSelected(position: Int) {
         viewModelScope.launch {
             genreMovies = if (genres.value[position].genre != "Все")
-                getMoviesByGenreUseCase(genres.value[position])
+                localMoviesRepository.getMovies(genres.value[position])
             else
                 movies
             _displayMovies.value = genreMovies

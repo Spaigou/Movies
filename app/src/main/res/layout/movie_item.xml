@@ -35,6 +35,7 @@
         android:layout_height="36dp"
         android:scaleType="centerCrop"
         android:focusable="true"
+        android:contentDescription="Добавить в избранное"
         android:background="@drawable/baseline_favorite_border_24" />
 
 </LinearLayout>

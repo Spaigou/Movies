@@ -4,11 +4,10 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.example.movielisttask.data.model.room.MoviesDatabase
+import com.example.feature_movies_api.domain.LocalMoviesRepository
+import com.example.feature_movies_database_impl.data.MoviesDatabase
 import com.example.movielisttask.data.repository.RemoteMoviesRepositoryImpl
-import com.example.movielisttask.data.repository.RoomLocalMoviesRepository
-import com.example.movielisttask.data.repository.SharedPreferencesLocalMoviesRepository
-import com.example.movielisttask.domain.repository.LocalMoviesRepository
+import com.example.feature_movies_database_impl.domain.RoomLocalMoviesRepository
 import com.example.movielisttask.domain.repository.RemoteMoviesRepository
 
 class MoviesApplication : Application() {

@@ -13,6 +13,8 @@
             <option value="$PROJECT_DIR$/feature_movies_api" />
             <option value="$PROJECT_DIR$/feature_movies_database_impl" />
             <option value="$PROJECT_DIR$/feature_movies_prefs_impl" />
+            <option value="$PROJECT_DIR$/feature_remote_api" />
+            <option value="$PROJECT_DIR$/feature_remote_impl" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

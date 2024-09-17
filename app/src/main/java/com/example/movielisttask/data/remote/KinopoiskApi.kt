@@ -1,7 +1,7 @@
 package com.example.movielisttask.data.remote
 
-import com.example.movielisttask.domain.model.Movie
-import com.example.movielisttask.domain.model.TopMovies
+import com.example.feature_movies_api.domain.model.Movie
+import com.example.movielisttask.data.model.TopMovies
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -12,10 +12,6 @@ interface KinopoiskApi {
     @GET("collections")
     @Headers("X-API-KEY: $API_KEY", "Content-Type: application/json")
     suspend fun getTopMovies(@Query("type") type: String, @Query("page") page: Int): Response<TopMovies>
-
-    @GET("{id}")
-    @Headers("X-API-KEY: $API_KEY", "Content-Type: application/json")
-    suspend fun getMovieById(@Path("id") filmId: Int): Response<Movie>
 
     companion object {
         const val API_KEY = "66cb4a47-61c0-4360-a6a6-001384f138ba"
