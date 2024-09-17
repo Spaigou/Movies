@@ -1,7 +1,7 @@
 package com.example.movielisttask.data.model.room.converters
 
 import androidx.room.TypeConverter
-import com.example.movielisttask.data.model.Country
+import com.example.movielisttask.domain.model.Country
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

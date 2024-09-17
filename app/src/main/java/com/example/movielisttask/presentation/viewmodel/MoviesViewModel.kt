@@ -13,6 +13,7 @@ import com.example.movielisttask.domain.usecase.GetLocalMoviesUseCase
 import com.example.movielisttask.domain.usecase.GetMoviesByGenreUseCase
 import com.example.movielisttask.domain.usecase.GetMoviesCollectionUseCase
 import com.example.movielisttask.domain.usecase.SaveLocalMoviesUseCase
+import com.example.movielisttask.domain.usecase.UpdateLocalFavoriteUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,6 +38,7 @@ class MoviesViewModel(
     private val getMoviesCollection = GetMoviesCollectionUseCase(remoteMoviesRepository)
     private val getLocalMovies = GetLocalMoviesUseCase(localMoviesRepository)
     private val saveLocalMovies = SaveLocalMoviesUseCase(localMoviesRepository)
+    private val updateLocalFavorite = UpdateLocalFavoriteUseCase(localMoviesRepository)
     private val getMoviesByGenreUseCase = GetMoviesByGenreUseCase(localMoviesRepository)
 
     init {
@@ -70,6 +72,7 @@ class MoviesViewModel(
 
     private fun getGenres() {
         val localGenres = mutableListOf<Genre>()
+        localGenres.add(Genre("Все"))
         movies .forEach { movie ->
             movie.genres.forEach { localGenres.add(it) }
         }
@@ -84,18 +87,12 @@ class MoviesViewModel(
     fun onFavoriteClicked(movie: Movie) {
         viewModelScope.launch {
             movie.onFavoriteClick()
-            saveLocalMovies(movies)
+            updateLocalFavorite(movie)
         }
     }
 
     fun onBackPressed() {
         _selectedMovie.value = null
-    }
-
-    fun onStopCalled() {
-        viewModelScope.launch {
-            saveLocalMovies(movies)
-        }
     }
 
     fun onMenuItemClicked(itemId: Int) {
@@ -114,7 +111,10 @@ class MoviesViewModel(
 
     fun onGenreSelected(position: Int) {
         viewModelScope.launch {
-            genreMovies = getMoviesByGenreUseCase(genres.value[position])
+            genreMovies = if (genres.value[position].genre != "Все")
+                getMoviesByGenreUseCase(genres.value[position])
+            else
+                movies
             _displayMovies.value = genreMovies
         }
     }

@@ -12,9 +12,9 @@ data class Movie(
     val webUrl: String?,
     val year: Int,
     val filmLength: Int,
-    val description: String,
+    val description: String?,
     val shortDescription: String?,
-    val countries: List<com.example.movielisttask.data.model.Country>,
-    val genres: List<com.example.movielisttask.data.model.Genre>,
+    val countries: List<Country>,
+    val genres: List<Genre>,
     var isFavorite: Boolean = false,
 )

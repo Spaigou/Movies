@@ -3,8 +3,8 @@ package com.example.movielisttask.data.model.room
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.movielisttask.data.model.Country
-import com.example.movielisttask.data.model.Genre
+import com.example.movielisttask.domain.model.Country
+import com.example.movielisttask.domain.model.Genre
 
 @Entity(
     tableName = "movies"
@@ -21,7 +21,7 @@ data class MovieEntity(
     @ColumnInfo("web_url") val webUrl: String?,
     @ColumnInfo("year") val year: Int,
     @ColumnInfo("film_length") val filmLength: Int,
-    @ColumnInfo("description") val description: String,
+    @ColumnInfo("description") val description: String?,
     @ColumnInfo("short_description") val shortDescription: String?,
     @ColumnInfo("countries") val countries: List<Country>,
     @ColumnInfo("genres") val genres: List<Genre>,

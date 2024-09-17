@@ -26,7 +26,7 @@ class MoviesApplication : Application() {
 //    val localMoviesRepository: LocalMoviesRepository by lazy {
 //        SharedPreferencesLocalMoviesRepository(sharedPreferences)
 //    }
-//
+
     val localMoviesRepository: LocalMoviesRepository by lazy {
         RoomLocalMoviesRepository(moviesDao)
     }

@@ -18,7 +18,10 @@ class MovieListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: Movie) {
             with(binding) {
-                moviePoster.load(movie.posterUrl)
+                moviePoster.load(movie.posterUrl) {
+                    placeholder(R.drawable.baseline_downloading_24)
+                    error(R.drawable.baseline_wifi_tethering_error_24)
+                }
                 movieTitle.text = movie.nameRu
                 favoriteIcon.setImageResource(defineFavoriteIcon(movie.isFavorite))
 
