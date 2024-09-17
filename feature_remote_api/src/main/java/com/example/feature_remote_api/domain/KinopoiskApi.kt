@@ -1,11 +1,8 @@
-package com.example.movielisttask.data.remote
+package com.example.feature_remote_api.domain
 
-import com.example.feature_movies_api.domain.model.Movie
-import com.example.movielisttask.data.model.TopMovies
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface KinopoiskApi {

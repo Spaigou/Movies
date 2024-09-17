@@ -1,4 +1,4 @@
-package com.example.movielisttask.data.remote
+package com.example.feature_remote_impl.domain
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -6,11 +6,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitInstance {
     private const val BASE_URL = "https://kinopoiskapiunofficial.tech/api/v2.2/films/"
 
-    val api: KinopoiskApi by lazy {
+    val api: com.example.feature_remote_api.domain.KinopoiskApi by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(KinopoiskApi::class.java)
+            .create(com.example.feature_remote_api.domain.KinopoiskApi::class.java)
     }
 }

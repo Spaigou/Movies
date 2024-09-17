@@ -1,4 +1,4 @@
-package com.example.movielisttask.common
+package com.example.feature_remote_api.domain
 
 enum class MoviesCollectionType {
     TOP_POPULAR_ALL,

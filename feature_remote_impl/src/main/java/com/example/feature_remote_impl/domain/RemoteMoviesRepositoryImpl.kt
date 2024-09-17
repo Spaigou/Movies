@@ -1,10 +1,9 @@
-package com.example.movielisttask.data.repository
+package com.example.feature_remote_impl.domain
 
 import android.util.Log
 import com.example.feature_movies_api.domain.model.Movie
-import com.example.movielisttask.common.MoviesCollectionType
-import com.example.movielisttask.data.remote.RetrofitInstance
-import com.example.movielisttask.domain.repository.RemoteMoviesRepository
+import com.example.feature_remote_api.domain.MoviesCollectionType
+import com.example.feature_remote_api.domain.RemoteMoviesRepository
 import retrofit2.HttpException
 import java.io.IOException
 

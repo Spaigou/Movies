@@ -8,7 +8,7 @@ import com.example.feature_movies_api.domain.model.Genre
 import com.example.feature_movies_api.domain.model.Movie
 import com.example.feature_movies_api.domain.model.onFavoriteClick
 import com.example.movielisttask.R
-import com.example.movielisttask.domain.repository.RemoteMoviesRepository
+import com.example.feature_remote_api.domain.RemoteMoviesRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class MoviesViewModel(
     private val localMoviesRepository: LocalMoviesRepository,
-    private val remoteMoviesRepository: RemoteMoviesRepository,
+    private val remoteMoviesRepository: com.example.feature_remote_api.domain.RemoteMoviesRepository,
 ) : ViewModel() {
     private var movies = emptyList<Movie>()
     private var genreMovies = emptyList<Movie>()
@@ -107,7 +107,6 @@ class MoviesViewModel(
             _displayMovies.value = genreMovies
         }
     }
-
 
     companion object {
         private const val TAG = "MoviesViewModel"

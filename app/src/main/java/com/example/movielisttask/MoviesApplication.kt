@@ -6,9 +6,10 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.feature_movies_api.domain.LocalMoviesRepository
 import com.example.feature_movies_database_impl.data.MoviesDatabase
-import com.example.movielisttask.data.repository.RemoteMoviesRepositoryImpl
+import com.example.feature_remote_impl.domain.RemoteMoviesRepositoryImpl
 import com.example.feature_movies_database_impl.domain.RoomLocalMoviesRepository
-import com.example.movielisttask.domain.repository.RemoteMoviesRepository
+import com.example.feature_movies_prefs_impl.domain.SharedPreferencesLocalMoviesRepository
+import com.example.feature_remote_api.domain.RemoteMoviesRepository
 
 class MoviesApplication : Application() {
     private lateinit var sharedPreferences: SharedPreferences

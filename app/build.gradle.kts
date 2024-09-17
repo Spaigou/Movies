@@ -41,6 +41,10 @@ android {
 
 dependencies {
     api(project(":feature_movies_api"))
+    implementation(project(":feature_movies_database_impl"))
+    implementation(project(":feature_movies_prefs_impl"))
+    implementation(project(":feature_remote_api"))
+    implementation(project(":feature_remote_impl"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -53,7 +57,6 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation(project(":feature_movies_database_impl"))
     kapt(libs.androidx.room.compiler)
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)

@@ -1,4 +1,4 @@
-package com.example.movielisttask.data.model
+package com.example.feature_remote_api.domain
 
 import com.example.feature_movies_api.domain.model.Movie
 

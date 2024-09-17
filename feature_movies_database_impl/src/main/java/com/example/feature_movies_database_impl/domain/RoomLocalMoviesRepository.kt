@@ -27,6 +27,6 @@ class RoomLocalMoviesRepository(private val moviesDao: MoviesDao) : LocalMoviesR
     }
 
     override suspend fun updateFavorite(movie: Movie) {
-        moviesDao.updateFavorite(movie.kinopoiskId, !movie.isFavorite)
+        moviesDao.updateFavorite(movie.kinopoiskId, movie.isFavorite)
     }
 }
