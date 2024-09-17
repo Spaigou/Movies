@@ -1,7 +1,7 @@
 package com.example.movielisttask.presentation.recycler
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.movielisttask.data.model.Movie
+import com.example.movielisttask.domain.model.Movie
 
 class MovieDiffUtilItemCallback : DiffUtil.ItemCallback<Movie>() {
     override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {

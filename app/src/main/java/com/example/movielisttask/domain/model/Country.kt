@@ -1,4 +1,4 @@
-package com.example.movielisttask.data.model
+package com.example.movielisttask.domain.model
 
 data class Country(
     val country: String

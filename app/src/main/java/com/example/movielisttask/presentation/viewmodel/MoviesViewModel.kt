@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movielisttask.R
-import com.example.movielisttask.data.model.Genre
-import com.example.movielisttask.data.model.Movie
+import com.example.movielisttask.domain.model.Movie
 import com.example.movielisttask.data.model.onFavoriteClick
+import com.example.movielisttask.domain.model.Genre
 import com.example.movielisttask.domain.repository.LocalMoviesRepository
 import com.example.movielisttask.domain.repository.RemoteMoviesRepository
 import com.example.movielisttask.domain.usecase.GetLocalMoviesUseCase

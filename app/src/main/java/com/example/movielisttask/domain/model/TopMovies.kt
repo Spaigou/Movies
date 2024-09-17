@@ -1,5 +1,4 @@
-package com.example.movielisttask.data.model
-
+package com.example.movielisttask.domain.model
 
 data class TopMovies(
     val total: Int,

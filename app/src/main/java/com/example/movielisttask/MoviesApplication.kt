@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.movielisttask.data.model.room.MoviesDatabase
 import com.example.movielisttask.data.repository.RemoteMoviesRepositoryImpl
+import com.example.movielisttask.data.repository.RoomLocalMoviesRepository
 import com.example.movielisttask.data.repository.SharedPreferencesLocalMoviesRepository
 import com.example.movielisttask.domain.repository.LocalMoviesRepository
 import com.example.movielisttask.domain.repository.RemoteMoviesRepository
@@ -22,13 +23,13 @@ class MoviesApplication : Application() {
         RemoteMoviesRepositoryImpl()
     }
 
-    val localMoviesRepository: LocalMoviesRepository by lazy {
-        SharedPreferencesLocalMoviesRepository(sharedPreferences)
-    }
-//
 //    val localMoviesRepository: LocalMoviesRepository by lazy {
-//        RoomLocalMoviesRepository(moviesDao)
+//        SharedPreferencesLocalMoviesRepository(sharedPreferences)
 //    }
+//
+    val localMoviesRepository: LocalMoviesRepository by lazy {
+        RoomLocalMoviesRepository(moviesDao)
+    }
 
     override fun onCreate() {
         super.onCreate()

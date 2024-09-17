@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.movielisttask.R
 import com.example.movielisttask.databinding.MovieItemBinding
-import com.example.movielisttask.data.model.Movie
-import com.example.movielisttask.data.model.onFavoriteClick
+import com.example.movielisttask.domain.model.Movie
 
 class MovieListAdapter(
     private val onMovieClick: (Movie) -> Unit,

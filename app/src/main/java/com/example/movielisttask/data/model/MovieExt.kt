@@ -1,6 +1,7 @@
 package com.example.movielisttask.data.model
 
 import com.example.movielisttask.data.model.room.MovieEntity
+import com.example.movielisttask.domain.model.Movie
 
 fun Movie.onFavoriteClick() {
     isFavorite = !isFavorite

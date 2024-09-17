@@ -15,5 +15,5 @@ interface MoviesDao {
     suspend fun getMovies(genre: String): List<MovieEntity>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insert(entity: MovieEntity)
+    suspend fun insertAll(entities: List<MovieEntity>)
 }

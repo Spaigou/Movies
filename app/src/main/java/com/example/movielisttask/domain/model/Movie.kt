@@ -1,4 +1,4 @@
-package com.example.movielisttask.data.model
+package com.example.movielisttask.domain.model
 
 data class Movie(
     val kinopoiskId: Int,
@@ -14,7 +14,7 @@ data class Movie(
     val filmLength: Int,
     val description: String,
     val shortDescription: String?,
-    val countries: List<Country>,
-    val genres: List<Genre>,
+    val countries: List<com.example.movielisttask.data.model.Country>,
+    val genres: List<com.example.movielisttask.data.model.Genre>,
     var isFavorite: Boolean = false,
 )
