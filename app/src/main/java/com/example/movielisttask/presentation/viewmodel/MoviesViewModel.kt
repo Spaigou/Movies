@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.feature_movies_api.domain.LocalMoviesRepository
 import com.example.feature_movies_api.domain.model.Genre
 import com.example.feature_movies_api.domain.model.Movie
-import com.example.feature_movies_api.domain.model.onFavoriteClick
+import com.example.movielisttask.presentation.onFavoriteClick
 import com.example.movielisttask.R
 import com.example.feature_remote_api.domain.RemoteMoviesRepository
 import kotlinx.coroutines.delay
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class MoviesViewModel(
     private val localMoviesRepository: LocalMoviesRepository,
-    private val remoteMoviesRepository: com.example.feature_remote_api.domain.RemoteMoviesRepository,
+    private val remoteMoviesRepository: RemoteMoviesRepository,
 ) : ViewModel() {
     private var movies = emptyList<Movie>()
     private var genreMovies = emptyList<Movie>()
